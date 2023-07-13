@@ -1,7 +1,9 @@
 ## This is a test titip.io, written in TypeScript and built with Next.js and Tailwind CSS
 
+### In order to facilitate testing purposes, the .env file is intentionally exposed.
 
 ## Avaiable Scripts :
+
 ```
 yarn dev
 yarn build
@@ -11,22 +13,24 @@ yarn prettier
 ```
 
 ## Tech Stacks
+
 - Next JS - React Framework
 - Redux toolkit - State Management
 - RTK Query - Data fetching and caching tool
-- Mapbox GL - Library Interactive Map 
+- Mapbox GL - Library Interactive Map
 - React map gl - React Component for build interactive map
 
 ## Folder Structure
+
 - src/
-  - components *(all reuseable components and feature ready to use)*
-  - elements *(basic/dumb component)*
-  - hooks *(custom hooks)*
-  - pages *(Next.JS routing page)*
-  - services *(Redux toolkit query for api call)*
-  - store *(Redux Store)*
-  - styles 
-  - utils *(All helper)*
+  - components _(all reuseable components and feature ready to use)_
+  - elements _(basic/dumb component)_
+  - hooks _(custom hooks)_
+  - pages _(Next.JS routing page)_
+  - services _(Redux toolkit query for api call)_
+  - store _(Redux Store)_
+  - styles
+  - utils _(All helper)_
 - public/
   - favicon.ico
   - images/
