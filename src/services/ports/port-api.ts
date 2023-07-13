@@ -12,8 +12,7 @@ const Header: IHeader = {
 export const portApi = createApi({
     reducerPath: "portApi",
     baseQuery: fetchBaseQuery({
-        //baseUrl: "https://api.searoutes.com/geocoding/v2/",
-        baseUrl: "http://localhost:3000/api",
+        baseUrl: "https://api.searoutes.com/geocoding/v2/",
         prepareHeaders: (headers, { getState }) => {
             headers.set('x-api-key', Header["x-api-key"]);
             headers.set('content-type', 'application/json');

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // import { HYDRATE } from "next-redux-wrapper";
 import { RootState } from "../store";
 
-import { CoordinatesResponse, Geometry } from "@/services";
+import { CoordinatesResponse, Feature } from "@/services";
 
 export type Coordinate = [number, number];
 
@@ -10,7 +10,7 @@ export type MapState = {
   mapStyle: string;
   viewState: { latitude: number, longitude: number, zoom: number },
   dataSource?: CoordinatesResponse,
-  selectedPorts?: Geometry[],
+  selectedPorts?: Feature[],
 }
 
 const initialState: MapState = {
@@ -41,15 +41,6 @@ export const mapSlice = createSlice({
       state.selectedPorts = action.payload;
     },
   },
-
-  // extraReducers: {
-  //   [HYDRATE]: (state, action) => {
-  //     return {
-  //       ...state,
-  //       ...action.payload.map,
-  //     };
-  //   },
-  // },
 });
 
 export const { setMapStyle, setMapViewState, setDataSource, setSelectedPort } = mapSlice.actions;

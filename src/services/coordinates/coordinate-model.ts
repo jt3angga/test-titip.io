@@ -57,4 +57,5 @@ export interface CoordinateFeature {
 export interface CoordinatesResponse {
     type: string;
     features: CoordinateFeature[];
+    properties: CoordinateProperties;
 }

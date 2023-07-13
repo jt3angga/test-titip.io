@@ -14,15 +14,25 @@ export function Map() {
     const mapRef = useRef<MapRef>(null);
 
     const {
-        data,
+        data, isError, error
     } = useGetCoordinatesQuery(
         selectedMap.selectedPorts || [], {
         skip: !selectedMap.selectedPorts || selectedMap.selectedPorts.length < 2
     });
 
     useEffect(() => {
+        if (isError) {
+            if ('status' in error) {
+                alert(`ERROR Fetching searoutes: ${error.status} - ${JSON.stringify(error.data) || "error"}`)
+            } else {
+                alert(`ERROR Fetching searoutes`)
+            }
+        }
+    }, [error, isError])
+
+    useEffect(() => {
         if (selectedMap.selectedPorts?.length === 1) {
-            const coord = selectedMap.selectedPorts[0]
+            const coord = selectedMap.selectedPorts[0].geometry;
             const targetFlyTo = {
                 center: [coord.coordinates[0], coord.coordinates[1]], zoom: 11, speed: 1, bearing: 0, pitch: 0,
 
@@ -60,11 +70,10 @@ export function Map() {
             onMove={evt => dispatch(setMapViewState(evt.viewState))}
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOK_ACCESS_TOKEN}
             mapStyle={selectedMap.mapStyle}
-            //style={{ width: 'calc(100vw - 400px)', height: '100vh' }}
             style={{ width: '100vw', height: '100vh' }}
         >
             {selectedMap?.selectedPorts?.map((p, i) => {
-                const coordinate = p.coordinates;
+                const coordinate = p.geometry.coordinates;
                 return (
                     <Marker
                         key={`marker-${i}-${coordinate[0]}-${coordinate[1]}`}
@@ -74,12 +83,9 @@ export function Map() {
                     />
                 )
             })}
-            {
-                selectedMap.dataSource ? <Source id="route" type="geojson" data={selectedMap.dataSource}>
-                    <Layer {...lineLayer} />
-                </Source> : null
-            }
-
+            {selectedMap.dataSource ? <Source id="route" type="geojson" data={selectedMap.dataSource}>
+                <Layer {...lineLayer} />
+            </Source> : null}
         </ReactMapGl>
     )
 }

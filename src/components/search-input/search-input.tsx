@@ -1,6 +1,7 @@
 import { Input, InputProps } from '@/elements';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Feature } from '@/services/ports/port-model';
+import { MapPinIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { ChangeEvent, useRef, useState } from 'react';
 import { Suggestion } from './suggestion';
@@ -10,9 +11,10 @@ export type SearchInputProps = InputProps & {
     onCloseClick: (index: number) => void;
     onSelectPort: (row: Feature, index: number) => void;
     withClose?: boolean;
+    mapIcon?: boolean
 }
 
-export function SearchInput({ index, withClose, onCloseClick, onSelectPort, ...rest }: SearchInputProps) {
+export function SearchInput({ index, withClose, mapIcon, onCloseClick, onSelectPort, ...rest }: SearchInputProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [inputValue, setInputValue] = useState('');
@@ -32,7 +34,13 @@ export function SearchInput({ index, withClose, onCloseClick, onSelectPort, ...r
         <div className='relative'>
             <div className='flex flex-row items-center justify-between py-2'>
                 <div className='mr-2 w-4'>
-                    <div className="w-2 h-2 bg-white rounded-full left-1 border border-white"></div>
+                    {mapIcon ?
+                        <div className="absolute left-[-3px] top-[14px]"><MapPinIcon className='w-4 h-4 text-white' /></div> :
+                        <div className='relative'>
+                            <div className="w-2 h-2 bg-white rounded-full left-1 border border-white" />
+                            <div className='absolute left-[4px] top-3 md:top-4 border-l-[1px] h-6' />
+                        </div>
+                    }
                 </div>
                 <Input
                     ref={inputRef}

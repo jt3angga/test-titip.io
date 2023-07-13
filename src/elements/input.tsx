@@ -8,7 +8,7 @@ const InputComponent = ({ placeholder, ...rest }: InputProps, ref: Ref<HTMLInput
       ref={ref}
       autoComplete='off'
       placeholder={placeholder || 'Search something'}
-      className="appearance-none border-0 border-b-[1px] border-white bg-blue-500 w-full py-2 px-0 text-white placeholder:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
+      className="appearance-none border-0 text-sm md:text-base border-b-[1px] border-white bg-blue-500 w-full py-1 px-0 text-white placeholder:text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
       {...rest}
     />
   )

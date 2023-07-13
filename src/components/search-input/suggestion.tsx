@@ -20,10 +20,22 @@ export function Suggestion({
     const {
         data,
         isLoading,
+        isError,
+        error,
     } = useGetPortsQuery(
         value, {
         skip: !value || value.length < 3 || selectedRow?.properties.name === value
     });
+
+    useEffect(() => {
+        if (isError) {
+            if ('status' in error) {
+                alert(`ERROR Fetching searoutes: ${error.status} - ${JSON.stringify(error.data) || "error"}`)
+            } else {
+                alert(`ERROR Fetching searoutes`)
+            }
+        }
+    }, [error, isError])
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -53,7 +65,7 @@ export function Suggestion({
     if (isLoading) {
         return (
             <div
-                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-10"
+                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
                 style={{
                     position: 'absolute',
                     top: inputRef.current ? inputRef.current.offsetTop + inputRef.current.offsetHeight : 'auto',
@@ -71,7 +83,7 @@ export function Suggestion({
     return (
         isDropdownOpen ? (
             <ul
-                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-10"
+                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
                 style={{
                     position: 'absolute',
                     top: inputRef.current ? inputRef.current.offsetTop + inputRef.current.offsetHeight : 'auto',
