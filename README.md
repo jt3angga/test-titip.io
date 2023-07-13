@@ -2,6 +2,8 @@
 
 ### In order to facilitate testing purposes, the .env file is intentionally exposed.
 
+Demo link : https://test-titip-io-git-main-jt3angga.vercel.app/?vercelToolbarCode=uWzSSy1mXm-sPss
+
 ## Avaiable Scripts :
 
 ```
