@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 // import { HYDRATE } from "next-redux-wrapper";
-import { RootState } from "../store";
+import { RootState } from '../store';
 
-import { CoordinatesResponse, Feature } from "@/services";
+import { CoordinatesResponse, Feature } from '@/services';
 
 export type Coordinate = [number, number];
 
 export type MapState = {
   mapStyle: string;
-  viewState: { latitude: number, longitude: number, zoom: number },
-  dataSource?: CoordinatesResponse,
-  selectedPorts?: Feature[],
-}
+  viewState: { latitude: number; longitude: number; zoom: number };
+  dataSource?: CoordinatesResponse;
+  selectedPorts?: Feature[];
+};
 
 const initialState: MapState = {
   mapStyle: 'mapbox://styles/mapbox/streets-v9',
@@ -25,7 +25,7 @@ const initialState: MapState = {
 };
 
 export const mapSlice = createSlice({
-  name: "map",
+  name: 'map',
   initialState,
   reducers: {
     setMapStyle(state, action) {
@@ -43,7 +43,8 @@ export const mapSlice = createSlice({
   },
 });
 
-export const { setMapStyle, setMapViewState, setDataSource, setSelectedPort } = mapSlice.actions;
+export const { setMapStyle, setMapViewState, setDataSource, setSelectedPort } =
+  mapSlice.actions;
 
 export const mapSelector = (state: RootState) => state.mapState;
 export default mapSlice.reducer;

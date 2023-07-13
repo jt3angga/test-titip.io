@@ -1,1 +1,7 @@
-export { mapSelector, mapSlice, setMapStyle, setMapViewState, type MapState } from './mapSlice';
+export {
+  mapSelector,
+  mapSlice,
+  setMapStyle,
+  setMapViewState,
+  type MapState,
+} from './mapSlice';

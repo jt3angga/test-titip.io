@@ -1,113 +1,108 @@
-import { useGetPortsQuery } from "@/services/ports/port-api";
-import { Feature } from "@/services/ports/port-model";
-import { MapPinIcon } from "@heroicons/react/24/outline";
-import { RefObject, useEffect, useState } from "react";
+import { useGetPortsQuery } from '@/services/ports/port-api';
+import { Feature } from '@/services/ports/port-model';
+import { MapPinIcon } from '@heroicons/react/24/outline';
+import { RefObject, useEffect, useState } from 'react';
 
 export type SuggestionProps = {
-    onClick: (row: Feature) => void,
-    value: string,
-    inputRef: RefObject<HTMLInputElement>
+  onClick: (row: Feature) => void;
+  value: string;
+  inputRef: RefObject<HTMLInputElement>;
 };
 
-export function Suggestion({
-    onClick,
-    value,
-    inputRef,
-}: SuggestionProps) {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedRow, setSelectedRow] = useState<Feature>();
+export function Suggestion({ onClick, value, inputRef }: SuggestionProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<Feature>();
 
-    const {
-        data,
-        isLoading,
-        isError,
-        error,
-    } = useGetPortsQuery(
-        value, {
-        skip: !value || value.length < 3 || selectedRow?.properties.name === value
-    });
+  const { data, isLoading, isError, error } = useGetPortsQuery(value, {
+    skip: !value || value.length < 3 || selectedRow?.properties.name === value,
+  });
 
-    useEffect(() => {
-        if (isError) {
-            if ('status' in error) {
-                alert(`ERROR Fetching searoutes: ${error.status} - ${JSON.stringify(error.data) || "error"}`)
-            } else {
-                alert(`ERROR Fetching searoutes`)
-            }
-        }
-    }, [error, isError])
-
-    useEffect(() => {
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('click', handleOutsideClick);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [inputRef]);
-
-    const handleSuggestionClick = (row: Feature) => {
-        setSelectedRow(row);
-        onClick(row);
-        setIsDropdownOpen(false);
-    };
-    useEffect(() => {
-        if (data?.features.length) {
-            setIsDropdownOpen(true)
-        } else {
-            setIsDropdownOpen(false)
-        }
-    }, [data]);
-
-    if (isLoading) {
-        return (
-            <div
-                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
-                style={{
-                    position: 'absolute',
-                    top: inputRef.current ? inputRef.current.offsetTop + inputRef.current.offsetHeight : 'auto',
-                    left: inputRef.current ? inputRef.current.offsetLeft : 'auto',
-                    width: inputRef.current ? inputRef.current.offsetWidth : 'auto',
-                }}
-            >
-                <div className="text-center p-2">
-                    Loading...
-                </div>
-            </div>
-        )
+  useEffect(() => {
+    if (isError) {
+      if ('status' in error) {
+        alert(
+          `ERROR Fetching searoutes: ${error.status} - ${
+            JSON.stringify(error.data) || 'error'
+          }`
+        );
+      } else {
+        alert(`ERROR Fetching searoutes`);
+      }
     }
+  }, [error, isError]);
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [inputRef]);
+
+  const handleSuggestionClick = (row: Feature) => {
+    setSelectedRow(row);
+    onClick(row);
+    setIsDropdownOpen(false);
+  };
+  useEffect(() => {
+    if (data?.features.length) {
+      setIsDropdownOpen(true);
+    } else {
+      setIsDropdownOpen(false);
+    }
+  }, [data]);
+
+  if (isLoading) {
     return (
-        isDropdownOpen ? (
-            <ul
-                className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
-                style={{
-                    position: 'absolute',
-                    top: inputRef.current ? inputRef.current.offsetTop + inputRef.current.offsetHeight : 'auto',
-                    left: inputRef.current ? inputRef.current.offsetLeft : 'auto',
-                    width: inputRef.current ? inputRef.current.offsetWidth : 'auto',
-                }}
-            >
-                {data?.features.map((row, index) => {
-                    return (
-                        <li
-                            key={index}
-                            className="border text-sm py-2 px-3 cursor-pointer hover:bg-gray-200 text-gray-700"
-                            onClick={() => handleSuggestionClick(row)}
-                        >
-                            <div className="flex flex-row items-center justify-between">
-                                <div>
-                                    {`${row.properties.name}, ${row.properties.locode}`}
-                                </div>
-                                <MapPinIcon className="w-4 h-4" />
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        ) : null
-    )
+      <div
+        className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
+        style={{
+          position: 'absolute',
+          top: inputRef.current
+            ? inputRef.current.offsetTop + inputRef.current.offsetHeight
+            : 'auto',
+          left: inputRef.current ? inputRef.current.offsetLeft : 'auto',
+          width: inputRef.current ? inputRef.current.offsetWidth : 'auto',
+        }}
+      >
+        <div className="text-center p-2">Loading...</div>
+      </div>
+    );
+  }
+
+  return isDropdownOpen ? (
+    <ul
+      className="mt-2 overflow-y-auto transition-all max-h-60 duration-300 bg-white shadow-md z-30"
+      style={{
+        position: 'absolute',
+        top: inputRef.current
+          ? inputRef.current.offsetTop + inputRef.current.offsetHeight
+          : 'auto',
+        left: inputRef.current ? inputRef.current.offsetLeft : 'auto',
+        width: inputRef.current ? inputRef.current.offsetWidth : 'auto',
+      }}
+    >
+      {data?.features.map((row, index) => {
+        return (
+          <li
+            key={index}
+            className="border text-sm py-2 px-3 cursor-pointer hover:bg-gray-200 text-gray-700"
+            onClick={() => handleSuggestionClick(row)}
+          >
+            <div className="flex flex-row items-center justify-between">
+              <div>{`${row.properties.name}, ${row.properties.locode}`}</div>
+              <MapPinIcon className="w-4 h-4" />
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  ) : null;
 }
